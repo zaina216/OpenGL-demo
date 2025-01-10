@@ -1,0 +1,65 @@
+﻿program.obj : error LNK2005: stbi_convert_iphone_png_to_rgb already defined in image.obj
+program.obj : error LNK2005: stbi_convert_iphone_png_to_rgb_thread already defined in image.obj
+program.obj : error LNK2005: stbi_failure_reason already defined in image.obj
+program.obj : error LNK2005: stbi_hdr_to_ldr_gamma already defined in image.obj
+program.obj : error LNK2005: stbi_hdr_to_ldr_scale already defined in image.obj
+program.obj : error LNK2005: stbi_image_free already defined in image.obj
+program.obj : error LNK2005: stbi_info already defined in image.obj
+program.obj : error LNK2005: stbi_info_from_callbacks already defined in image.obj
+program.obj : error LNK2005: stbi_info_from_file already defined in image.obj
+program.obj : error LNK2005: stbi_info_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_is_16_bit already defined in image.obj
+program.obj : error LNK2005: stbi_is_16_bit_from_callbacks already defined in image.obj
+program.obj : error LNK2005: stbi_is_16_bit_from_file already defined in image.obj
+program.obj : error LNK2005: stbi_is_16_bit_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_is_hdr already defined in image.obj
+program.obj : error LNK2005: stbi_is_hdr_from_callbacks already defined in image.obj
+program.obj : error LNK2005: stbi_is_hdr_from_file already defined in image.obj
+program.obj : error LNK2005: stbi_is_hdr_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_ldr_to_hdr_gamma already defined in image.obj
+program.obj : error LNK2005: stbi_ldr_to_hdr_scale already defined in image.obj
+program.obj : error LNK2005: stbi_load already defined in image.obj
+program.obj : error LNK2005: stbi_load_16 already defined in image.obj
+program.obj : error LNK2005: stbi_load_16_from_callbacks already defined in image.obj
+program.obj : error LNK2005: stbi_load_16_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_load_from_callbacks already defined in image.obj
+program.obj : error LNK2005: stbi_load_from_file already defined in image.obj
+program.obj : error LNK2005: stbi_load_from_file_16 already defined in image.obj
+program.obj : error LNK2005: stbi_load_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_load_gif_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_loadf already defined in image.obj
+program.obj : error LNK2005: stbi_loadf_from_callbacks already defined in image.obj
+program.obj : error LNK2005: stbi_loadf_from_file already defined in image.obj
+program.obj : error LNK2005: stbi_loadf_from_memory already defined in image.obj
+program.obj : error LNK2005: stbi_set_flip_vertically_on_load already defined in image.obj
+program.obj : error LNK2005: stbi_set_flip_vertically_on_load_thread already defined in image.obj
+program.obj : error LNK2005: stbi_set_unpremultiply_on_load already defined in image.obj
+program.obj : error LNK2005: stbi_set_unpremultiply_on_load_thread already defined in image.obj
+program.obj : error LNK2005: stbi_zlib_decode_buffer already defined in image.obj
+program.obj : error LNK2005: stbi_zlib_decode_malloc already defined in image.obj
+program.obj : error LNK2005: stbi_zlib_decode_malloc_guesssize already defined in image.obj
+program.obj : error LNK2005: stbi_zlib_decode_malloc_guesssize_headerflag already defined in image.obj
+program.obj : error LNK2005: stbi_zlib_decode_noheader_buffer already defined in image.obj
+program.obj : error LNK2005: stbi_zlib_decode_noheader_malloc already defined in image.obj
+glfw3.lib(init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(init.obj)' or at ''; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(window.obj)' or at ''; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(input.obj)' or at ''; linking object as if no debug info
+glfw3.lib(context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(context.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_time.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_thread.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_thread.obj)' or at ''; linking object as if no debug info
+glfw3.lib(platform.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(platform.obj)' or at ''; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(monitor.obj)' or at ''; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(vulkan.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_init.obj)' or at ''; linking object as if no debug info
+glfw3.lib(null_init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_init.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_module.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_module.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_monitor.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_window.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_joystick.obj)' or at ''; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(wgl_context.obj)' or at ''; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(egl_context.obj)' or at ''; linking object as if no debug info
+glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(osmesa_context.obj)' or at ''; linking object as if no debug info
+glfw3.lib(null_monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_monitor.obj)' or at ''; linking object as if no debug info
+glfw3.lib(null_window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_window.obj)' or at ''; linking object as if no debug info
+glfw3.lib(null_joystick.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_joystick.obj)' or at ''; linking object as if no debug info
+Z:\ok yes\projects\book tutorial\x64\Debug\book tutorial.exe : fatal error LNK1169: one or more multiply defined symbols found
