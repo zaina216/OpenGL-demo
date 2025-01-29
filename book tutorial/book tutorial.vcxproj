@@ -137,11 +137,16 @@
     <ClCompile Include="program.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\tutorial\Include\shaderClass\shader.h" />
-    <ClInclude Include="..\..\tutorial\Include\shaderClass\stb_image.h" />
+    <ClInclude Include="program.h" />
+    <ClInclude Include="Z:\ok yes\projects\tutorial\Include\shaderClass\shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="awesomeface.png" />
     <Image Include="container.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\fShader.glsl" />
+    <None Include="shaders\vShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
