@@ -26,10 +26,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Z:\ok yes\projects\tutorial\Include\shaderClass\shader.h">
+    <ClInclude Include="program.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="program.h">
+    <ClInclude Include="..\..\..\..\Users\zain\Desktop\opengl\projects\tutorial\Include\shaderClass\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Users\zain\Desktop\opengl\projects\tutorial\Include\cameraClass\cameraClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,5 +51,7 @@
     <None Include="shaders\vShader.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="shaders\fShaderLightingContainer.glsl" />
+    <None Include="shaders\vShaderLightingContainer.glsl" />
   </ItemGroup>
 </Project>

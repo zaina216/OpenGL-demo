@@ -7,6 +7,7 @@
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 #include <shaderClass/shader.h>
+#include <cameraClass/cameraClass.h>
 #include <iostream>
 #include <math.h>
 #include <filesystem>
@@ -17,40 +18,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "program.h"
 using namespace glm;
-
-
-
-//const char* vertexShaderSource =
-//    "#version 330 core\n"
-//    "layout (location = 0) in vec3 aPos;\n"
-//    "layout (location = 1) in vec3 aColor;\n"
-//    "out vec3 ourColor;\n" // output to fragment shaders
-//    "void main()\n"
-//    "{\n"
-//    "   gl_Position = vec4(aPos, 1.0);\n"
-//    "   ourColor = aColor;\n"
-//    "}\0";
-//
-//const char* fragmentShaderSource = 
-//    "#version 330 core\n"
-//    "out vec4 FragColor;\n"
-//    "in vec3 ourColor;\n"
-//    "void main()\n"
-//    "{\n"
-//    "   FragColor = vec4(ourColor, 1.0f);\n"
-//    "}\0";
-//
-//const char* t2fragmentShaderSource =
-//    "#version 330 core\n"
-//    "out vec4 FragColor;\n"
-//    "in vec3 ourColor;\n"
-//    // "uniform vec4 ourColour2;\n"
-//    "void main()\n"
-//    "{\n"
-//    "    FragColor = vec4(ourColor, 1.0f);\n"
-//    // "    FragColor = ourColour2;\n"
-//    "}\0"
-//;
 
 float transparency = 0.5f;
 
@@ -63,12 +30,13 @@ float deltaTime = 0.0f; // time between the last and current frame
 float lastFrame = 0.0f; // time of last frame
 
 //for mouse movement
+Camera camera(vec3(0.0f, 0.0f, 3.0f));
 float lastX = 400, lastY = 300;
 float pitch1 = 0.0f, yaw1 = -90.0f;
 float mouseEntered = true;
 
 // for zoom
-float fov = 90.0f;
+//float fov = 90.0f;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) { // need to put external functions before the main one for some reason
     glViewport(0, 0, width, height);
@@ -83,20 +51,16 @@ void processInput(GLFWwindow* window) {
     }
 
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        cout << "increasing transparency" << endl;
-        cout << transparency << endl;
         transparency = transparency + 0.001f;
     }
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        cout << "decreasing transparency" << endl;
-        cout << transparency << endl;
         transparency = transparency - 0.001f;
     }
 
 
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+    /*if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         cameraPos += cameraSpeed * cameraFront;
     }
 
@@ -110,54 +74,115 @@ void processInput(GLFWwindow* window) {
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
         cameraPos += normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
-    }
+    }*/
 
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboard(FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboard(LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboard(RIGHT, deltaTime);
 
 }
 
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+void mouse_callback(GLFWwindow* window, double x, double y) {
 
-    if (mouseEntered) {
+    //if (mouseEntered) {
+    //    lastX = xpos;
+    //    lastY = ypos;
+    //    mouseEntered = false;
+    //}
+
+    //float xOffset = xpos - lastX;
+    //float yOffset = lastY - ypos; // vice versa since y coordinate axis is reversed
+    //const float sensitivity = 0.4f;
+
+    //lastX = xpos;
+    //lastY = ypos;
+    //xOffset *= sensitivity;
+    //yOffset *= sensitivity;
+    //yaw1 += xOffset;
+    //pitch1 += yOffset;
+    //
+    //if (pitch1 > 89.0f) {
+    //    pitch1 = 89.0f;
+    //}
+
+    //if (pitch1 < -89.0f) {
+    //    pitch1 = -89.0f;
+    //}
+
+    //vec3 direction;
+    //direction.x = cos(radians(yaw1)) * cos(radians(pitch1));
+    //direction.y = sin(radians(pitch1));
+    //direction.z = sin(radians(yaw1)) * cos(radians(pitch1));
+
+    //cameraFront = normalize(direction);
+
+    float xpos = static_cast<float>(x);
+    float ypos = static_cast<float>(y);
+
+    if (mouseEntered)
+    {
         lastX = xpos;
         lastY = ypos;
         mouseEntered = false;
     }
 
-    float xOffset = xpos - lastX;
-    float yOffset = lastY - ypos; // vice versa since y coordinate axis is reversed
-    const float sensitivity = 0.4f;
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
 
     lastX = xpos;
     lastY = ypos;
-    xOffset *= sensitivity;
-    yOffset *= sensitivity;
-    yaw1 += xOffset;
-    pitch1 += yOffset;
-    
-    if (pitch1 > 89.0f) {
-        pitch1 = 89.0f;
-    }
 
-    if (pitch1 < -89.0f) {
-        pitch1 = -89.0f;
-    }
-
-    vec3 direction;
-    direction.x = cos(radians(yaw1)) * cos(radians(pitch1));
-    direction.y = sin(radians(pitch1));
-    direction.z = sin(radians(yaw1)) * cos(radians(pitch1));
-
-    cameraFront = normalize(direction);
+    camera.ProcessMouseMovement(xoffset, yoffset);
 
 }
 
 void  scroll_callback(GLFWwindow* window, double xOffset, double yOffset) {
-    fov -= (float)yOffset;
+    /*fov -= (float)yOffset *5;
+    cout << fov << endl;
     if (fov < 1.0f)
         fov = 1.0f;
-    if (fov > 45.0f)
-        fov = 45.0f;
+    if (fov > 90.0f)
+        fov = 90.0f;*/
+
+    camera.ProcessMouseScroll(static_cast<float>(yOffset));
+}
+
+// Custom implementation of the LookAt function
+mat4 calculate_lookAt_matrix(vec3 position, vec3 target, vec3 worldUp)
+{
+    // 1. Position = known
+    // 2. Calculate cameraDirection
+    vec3 zaxis = normalize(position - target);
+    // 3. Get positive right axis vector
+    vec3 xaxis = normalize(cross(normalize(worldUp), zaxis));
+    // 4. Calculate camera up vector
+    vec3 yaxis = cross(zaxis, xaxis);
+
+    // Create translation and rotation matrix
+    // In glm we access elements as mat[col][row] due to column-major layout
+    mat4 translation = mat4(1.0f); // Identity matrix by default
+    translation[3][0] = -position.x; // Fourth column, first row
+    translation[3][1] = -position.y;
+    translation[3][2] = -position.z;
+    mat4 rotation = mat4(1.0f);
+    rotation[0][0] = xaxis.x; // First column, first row
+    rotation[1][0] = xaxis.y;
+    rotation[2][0] = xaxis.z;
+    rotation[0][1] = yaxis.x; // First column, second row
+    rotation[1][1] = yaxis.y;
+    rotation[2][1] = yaxis.z;
+    rotation[0][2] = zaxis.x; // First column, third row
+    rotation[1][2] = zaxis.y;
+    rotation[2][2] = zaxis.z;
+
+    // Return lookAt matrix as combination of translation and rotation matrix
+    return rotation * translation; // Remember to read from right to left (first translation then rotation)
 }
 
 int main()
@@ -382,10 +407,31 @@ int main()
     ourShader.setInt("ourTexture2", 1);
     ourShader.setFloat("xOffset", offset);
 
+    //---------------------------------------------------------------------------------------
+
+    // Lighting
+    //unsigned int lightVAO;
+    //glGenVertexArrays(1, &lightVAO);
+    //glBindVertexArray(lightVAO);
+    //// only bind light vao cos the container's vao data already contains required info.
+    //glBindBuffer(GL_ARRAY_BUFFER);
+    //// set vert attr
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+    //glEnableVertexAttribArray(0);
+
+
+    //shader lightingShader("./shaders/vShaderLightingContainer.glsl", "./shaders/fShaderLightingContainer.glsl");
+
+    //lightingShader.use();
+    //lightingShader.setVec3("objectColour", 1.0f, 0.5f, 0.31f);
+    //lightingShader.setVec3("lightingColour", 1.0f, 1.0f, 1.0f);
+
+    //have to make the second set of lighting shaders now.
+
+    //---------------------------------------------------------------------------------------
 
     unsigned int projectionLocation = glGetUniformLocation(ourShader.id, "projection");
-    mat4 proj = perspective(radians(fov), ((float)width) / ((float)height), 0.1f, 100.0f); // makes view frustrum
-    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
+    
     //ourShader.setMat4("projection", mat4(1.0f));
     //ourShader.setMat4("projection", proj);
 
@@ -410,6 +456,9 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         processInput(window);
+
+        mat4 proj = perspective(radians(camera.Zoom), ((float)width) / ((float)height), 0.1f, 100.0f); // makes view frustrum
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
 
         glClearColor(0.1f, 0.3f, 0.3f, 1.0f); //state-setting function
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using 
@@ -496,7 +545,12 @@ int main()
         float camz = cos(glfwGetTime()) * radius;
 
         //view = lookAt(vec3(camx, 0.0f, camz), vec3(0.0f, 0.0f, 3.0f), vec3(0.0f, 1.0f, 0.0f));
-        view = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        //view = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
+
+        // Don't forget to replace glm::lookAt with your own version
+        // view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        view = camera.GetViewMatrix();
 
 
 
