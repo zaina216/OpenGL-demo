@@ -38,6 +38,9 @@ float mouseEntered = true;
 // for zoom
 //float fov = 90.0f;
 
+// the virtual sun
+vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) { // need to put external functions before the main one for some reason
     glViewport(0, 0, width, height);
 }
@@ -143,13 +146,6 @@ void mouse_callback(GLFWwindow* window, double x, double y) {
 }
 
 void  scroll_callback(GLFWwindow* window, double xOffset, double yOffset) {
-    /*fov -= (float)yOffset *5;
-    cout << fov << endl;
-    if (fov < 1.0f)
-        fov = 1.0f;
-    if (fov > 90.0f)
-        fov = 90.0f;*/
-
     camera.ProcessMouseScroll(static_cast<float>(yOffset));
 }
 
@@ -275,6 +271,51 @@ int main()
          0.5f,  0.5f,  0.5f,     1.0f, 1.0f, 0.0f,         1.0f, 0.0f,
         -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 0.0f,
         -0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         0.0f, 1.0f
+    };
+
+
+    float lightCubeVertices[]{
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+
+        -0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,
+
+        -0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
     };
 
 
@@ -410,21 +451,29 @@ int main()
     //---------------------------------------------------------------------------------------
 
     // Lighting
-    //unsigned int lightVAO;
-    //glGenVertexArrays(1, &lightVAO);
-    //glBindVertexArray(lightVAO);
-    //// only bind light vao cos the container's vao data already contains required info.
-    //glBindBuffer(GL_ARRAY_BUFFER);
-    //// set vert attr
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
-    //glEnableVertexAttribArray(0);
 
 
-    //shader lightingShader("./shaders/vShaderLightingContainer.glsl", "./shaders/fShaderLightingContainer.glsl");
+    unsigned int lightVBO;
+    unsigned int lightVAO;
 
-    //lightingShader.use();
-    //lightingShader.setVec3("objectColour", 1.0f, 0.5f, 0.31f);
-    //lightingShader.setVec3("lightingColour", 1.0f, 1.0f, 1.0f);
+    glGenBuffers(1, &lightVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, lightVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(lightCubeVertices), lightCubeVertices, GL_STATIC_DRAW);
+
+
+
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+    // only bind light vao cos the container's vao data already contains required info.
+    glBindBuffer(GL_ARRAY_BUFFER, lightVBO);
+    // set vert attr
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+    glEnableVertexAttribArray(0);
+
+
+    shader lightCubeShader("./shaders/vShaderLightingContainer.glsl", "./shaders/fShaderLightingContainer.glsl");
+
+    
 
     //have to make the second set of lighting shaders now.
 
@@ -457,21 +506,35 @@ int main()
         lastFrame = currentFrame;
         processInput(window);
 
-        mat4 proj = perspective(radians(camera.Zoom), ((float)width) / ((float)height), 0.1f, 100.0f); // makes view frustrum
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
-
         glClearColor(0.1f, 0.3f, 0.3f, 1.0f); //state-setting function
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using 
+
+
+        ourShader.use();
+
+
+        // i have all the colours tho
+        /*lightingShader.use();
+        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);*/
+
+        mat4 proj = perspective(radians(camera.Zoom), ((float)width) / ((float)height), 0.1f, 100.0f); // makes view frustrum
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
+        mat4 view(1.0f);
+        // Don't forget to replace glm::lookAt with your own version
+        // view = calculate_lookAt_matrix(vec3(camx, 0.0f, camz), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)); broken for some reason
+        view = camera.GetViewMatrix();
+
+        string name = "view";
+        glUniformMatrix4fv(glGetUniformLocation(ourShader.id, name.c_str()), 1, GL_FALSE, &view[0][0]);
+        //lightCubeShader.setMat4("view", view);
+
         /*int vertexColourLocation2 = glGetUniformLocation(t2shaderProgram, "ourColour2");*/
 
         // draw the triangle(s)
         //glUniform4f(vertexColourLocation, 0.0f, greenValue, 0.0f, 1.0f);
-        //ourShader.use();
 
         //ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
-
-       
-
         glActiveTexture(GL_TEXTURE0);
 
         glBindTexture(GL_TEXTURE_2D, texture); //activate texture before binding
@@ -481,14 +544,10 @@ int main()
 
         ourShader.setFloat("tra", transparency);
 
-        ourShader.use();
-
-        t1vertices[4] = 1.0f;
 
         //glDrawArrays(GL_TRIANGLES, 0, 3);
 
         //glUseProgram(t2shaderProgram);
-
 
 
         vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
@@ -521,45 +580,6 @@ int main()
         mat4 model(1.0f);
         model = rotate(model, (float)glfwGetTime() * radians(50.0f), vec3(0.5f, 1.0f, 0.0f));
 
-        mat4 view(1.0f);
-        float angle = 3.0f * (float)glfwGetTime();
-        float cosval = static_cast<float>(cos((float)angle));
-        float sinval = static_cast<float>(sin((float)angle));
-        view = translate(view, vec3(0.0f + 2.5f * cosval, 0.0f + 2.5f * sinval, -3.0f));
-        //view = translate(view, vec3(5.0f, 0.0f, -3.0f));
-
-        //vec3 cameraPos(0.0f, 0.0f, 3.0f);
-        //vec3 cameraTarget(0.0f, 0.0f, 0.0f);
-        //vec3 cameraDirection(normalize(cameraPos - cameraTarget));
-
-        /*vec3 up(0.0f, 1.0f, 0.0f);
-        vec3 cameraRight(normalize(cross(up, cameraDirection)));
-        vec3 cameraUp(cross(cameraDirection, cameraRight));*/
-
-        //view = lookAt(vec3(0.0f, 0.0f, 3.0f),
-        //              vec3(0.0f, 0.0f, 0.0f),
-        //              vec3(0.0f, 1.0f, 0.0f));
-
-        const float radius = 10.0f;
-        float camx = sin(glfwGetTime()) * radius;
-        float camz = cos(glfwGetTime()) * radius;
-
-        //view = lookAt(vec3(camx, 0.0f, camz), vec3(0.0f, 0.0f, 3.0f), vec3(0.0f, 1.0f, 0.0f));
-        //view = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-
-
-        // Don't forget to replace glm::lookAt with your own version
-        // view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        view = camera.GetViewMatrix();
-
-
-
-        //unsigned int modelLocation = glGetUniformLocation(ourShader.id, "model");
-        //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, value_ptr(model));
-
-        //unsigned int viewLocation = glGetUniformLocation(ourShader.id, "view");
-        //glUniformMatrix4fv(viewLocation, 1, GL_FALSE, &view[0][0]);
-
         glBindVertexArray(VAO[0]);
         for (unsigned int i = 0; i < 10; i++)
         {
@@ -572,11 +592,34 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
-        unsigned int viewLocation = glGetUniformLocation(ourShader.id, "view");
-        // pass them to the shaders (3 different ways)
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, &view[0][0]);
 
-        //glBindVertexArray(VAO[1]);
+        // "this, now this is the light of the world" - James May c. early 21st century
+        // the light of the world has broken everything
+        ourShader.setVec3("lightColour", 1.0f, 1.0f, 1.0f);
+        lightCubeShader.use();
+
+
+        name = "lightProjection";
+        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &proj[0][0]);
+        //lightCubeShader.setMat4("projection", projection);
+
+        name = "lightView";
+        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &view[0][0]);
+        //lightCubeShader.setMat4("view", view);
+
+
+        mat4 lightModel(1.0f);
+        name = "lightModel";
+        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &lightModel[0][0]);
+        lightModel = translate(lightModel, lightPos);
+        lightModel = scale(lightModel, vec3(0.2f)); // 20% of the size of other cubes
+
+        //lightCubeShader.setMat4("model", lightModel);
+
+        glBindVertexArray(lightVAO);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
 
         glEnable(GL_DEPTH_TEST);
         glBindVertexArray(0);
