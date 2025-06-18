@@ -1,4 +1,4 @@
-// opengl demo demonstratind many different methodologies e.g. drawing cubes, textures, scaling
+// opengl demo demonstrating many different methodologies e.g. drawing cubes, textures, scaling
 
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
