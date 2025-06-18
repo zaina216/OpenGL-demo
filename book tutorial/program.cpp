@@ -1,8 +1,4 @@
-// look dude, i raised this from the ground with my own two bare hands ahahhaha
-// also raytracing is cool
-// 
-//Z:\ok yes\projects\tutorial\Libs\glfw3.lib linker entry for linux
-//C:\Users\zain\Desktop\opengl\projects\tutorial\Libs\glfw3.lib linker entry for windows
+// opengl demo demonstratind many different methodologies e.g. drawing cubes, textures, scaling
 
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
