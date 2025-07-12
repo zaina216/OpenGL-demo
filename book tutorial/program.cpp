@@ -597,7 +597,8 @@ int main()
 
         // "this, now this is the light of the world" - James May c. early 21st century
         // the light of the world has broken everything. i fixed the problems lmao
-        ourShader.setVec3("lightColour", 1.0f, 1.0f, 9.0f);
+        ourShader.setVec3("lightColour", 1.0f, 1.0f, 1.0f);
+        ourShader.setVec3("viewPos", camera.Position);
 
         lightCubeShader.use();
 
