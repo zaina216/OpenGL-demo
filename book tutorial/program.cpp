@@ -87,6 +87,10 @@ void processInput(GLFWwindow* window) {
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        camera.ProcessKeyboard(UP, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+        camera.ProcessKeyboard(DOWN, deltaTime);
 
 }
 
@@ -229,48 +233,43 @@ int main()
     // could use element buffer objects to eliminate overlap when drawing more than 1 triangle
     float t1vertices[] = { // vertices
         // t1
-            //position          //colour              // texture coords
-        -0.5f, -0.5f, -0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,     0.0f, 0.0f, 1.0f,       1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,     1.0f, 1.0f, 0.0f,       1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       0.0f, 0.0f,
-
-        -0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,     0.0f, 0.0f, 1.0f,         1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,     1.0f, 1.0f, 0.0f,         1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,     0.0f, 1.0f, 0.0f,         0.0f, 0.0f,
-
-        -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,     0.0f, 0.0f, 1.0f,         0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,     1.0f, 1.0f, 0.0f,         0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 0.0f,
-
-         0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,     0.0f, 0.0f, 1.0f,         0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,     1.0f, 1.0f, 0.0f,         0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,     0.0f, 0.0f, 1.0f,         1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,     1.0f, 1.0f, 0.0f,         1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         0.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,     0.0f, 0.0f, 1.0f,         1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,     1.0f, 1.0f, 0.0f,         1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,         0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,         0.0f, 1.0f
+            //position          //colour              // texture coords     // normal vector coordinates for lighting
+        -0.5f, -0.5f, -0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        0.0f,  0.0f, -1.0f,
+         0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,     0.0f, 0.0f, 1.0f,       1.0f, 1.0f, /*0.0f,*/        0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,     1.0f, 1.0f, 0.0f,       1.0f, 1.0f, /*0.0f,*/        0.0f,  0.0f, -1.0f,
+        -0.5f,  0.5f, -0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        0.0f,  0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,     0.0f, 0.0f, 1.0f,       1.0f, 1.0f, /*0.0f,*/        0.0f,  0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,     1.0f, 1.0f, 0.0f,       1.0f, 1.0f, /*0.0f,*/        0.0f,  0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,     0.0f, 1.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        0.0f,  0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 1.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,     0.0f, 0.0f, 1.0f,       0.0f, 1.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,     1.0f, 1.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 1.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,     0.0f, 0.0f, 1.0f,       0.0f, 1.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,     1.0f, 1.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 1.0f, /*0.0f,*/        0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,     0.0f, 0.0f, 1.0f,       1.0f, 0.0f, /*0.0f,*/        0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,     1.0f, 1.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f, -1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       1.0f, 1.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,     0.0f, 0.0f, 1.0f,       1.0f, 0.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,     1.0f, 1.0f, 0.0f,       1.0f, 0.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,     1.0f, 0.0f, 0.0f,       0.0f, 0.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f
     };
 
 
@@ -356,14 +355,17 @@ int main()
     glBufferData(GL_ARRAY_BUFFER, sizeof(t1vertices), t1vertices, GL_STATIC_DRAW);
     // link vertex attributes
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    // colour attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
     // texture attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
+    // lighting attribute ignore this? but no......
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+    glEnableVertexAttribArray(3);
     ////t2
     //glBindVertexArray(VAO[1]);
     //glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
@@ -376,11 +378,11 @@ int main()
     //glEnableVertexAttribArray(1);
 
     // element buffer object for drawing more vertices at once
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
+    //unsigned int EBO;
+    //glGenBuffers(1, &EBO);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) // wireframe
 
@@ -408,7 +410,7 @@ int main()
 
 
     int width, height, noChannels;
-    unsigned char* data = stbi_load("./container.jpg", &width, &height, &noChannels, 0); // last arg is ?
+    unsigned char* data = stbi_load("./container.jpg", &width, &height, &noChannels, 0); // last arg is ? dont change last argument id breaks everything lmao
 
 
     if (data) {
@@ -506,7 +508,8 @@ int main()
         lastFrame = currentFrame;
         processInput(window);
 
-        glClearColor(0.1f, 0.3f, 0.3f, 1.0f); //state-setting function
+        //glClearColor(0.1f, 0.3f, 0.3f, 1.0f); //state-setting function
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //state-setting function
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using 
 
 
@@ -515,8 +518,9 @@ int main()
 
         // i have all the colours tho
         /*lightingShader.use();
-        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);*/
+        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);*/
+        ourShader.setVec3("lightColour", 1.0f, 1.0f, 1.0f);
+        lightCubeShader.setVec3("lightPos", lightPos);
 
         mat4 proj = perspective(radians(camera.Zoom), ((float)width) / ((float)height), 0.1f, 100.0f); // makes view frustrum
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
@@ -524,6 +528,8 @@ int main()
         // Don't forget to replace glm::lookAt with your own version
         // view = calculate_lookAt_matrix(vec3(camx, 0.0f, camz), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)); broken for some reason
         view = camera.GetViewMatrix();
+
+
 
         string name = "view";
         glUniformMatrix4fv(glGetUniformLocation(ourShader.id, name.c_str()), 1, GL_FALSE, &view[0][0]);
@@ -559,7 +565,7 @@ int main()
         /*trans = rotate(trans, radians(90.0f), vec3(0.0, 0.0, 1.0));
         trans = scale(trans, vec3(0.5, 0.5, 0.5));*/
 
-        trans = rotate(trans, /*(float)glfwGetTime() * 6.0f*/ (float)pow(glfwGetTime(), 2), vec3(0.0f, 0.0f, 1.0f));
+        trans = rotate(trans, /*(float)glfwGetTime() * 6.0f*/ (float)pow(glfwGetTime(), 1), vec3(0.0f, 0.0f, 1.0f));
         trans = translate(trans, vec3(0.5f, -0.5f, 0.0f));
         unsigned int transformLocation = glGetUniformLocation(ourShader.id, "transform");
         glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(trans));
@@ -578,7 +584,7 @@ int main()
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         mat4 model(1.0f);
-        model = rotate(model, (float)glfwGetTime() * radians(50.0f), vec3(0.5f, 1.0f, 0.0f));
+        model = rotate(model, (float)glfwGetTime() * radians(0.0f), vec3(0.5f, 1.0f, 0.0f));
 
         glBindVertexArray(VAO[0]);
         for (unsigned int i = 0; i < 10; i++)
@@ -594,8 +600,9 @@ int main()
 
 
         // "this, now this is the light of the world" - James May c. early 21st century
-        // the light of the world has broken everything
-        ourShader.setVec3("lightColour", 1.0f, 1.0f, 1.0f);
+        // the light of the world has broken everything. i fixed the problems lmao
+        ourShader.setVec3("lightColour", 1.0f, 1.0f, 9.0f);
+
         lightCubeShader.use();
 
 
@@ -607,17 +614,18 @@ int main()
         glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &view[0][0]);
         //lightCubeShader.setMat4("view", view);
 
+        ourShader.setVec3("lightPos", lightPos);
 
         mat4 lightModel(1.0f);
         name = "lightModel";
-        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &lightModel[0][0]);
         lightModel = translate(lightModel, lightPos);
         lightModel = scale(lightModel, vec3(0.2f)); // 20% of the size of other cubes
+        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &lightModel[0][0]);
 
         //lightCubeShader.setMat4("model", lightModel);
 
         glBindVertexArray(lightVAO);
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
 
