@@ -18,10 +18,10 @@
     <ClCompile Include="program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="image.cpp">
+    <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClInclude Include="program.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Users\zain\Desktop\opengl\projects\tutorial\Include\shaderClass\shader.h">
+    <ClInclude Include="..\..\ogl\include\cameraClass\cameraClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Users\zain\Desktop\opengl\projects\tutorial\Include\cameraClass\cameraClass.h">
+    <ClInclude Include="..\..\ogl\include\shaderClass\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

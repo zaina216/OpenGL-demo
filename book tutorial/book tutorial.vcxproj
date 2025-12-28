@@ -76,8 +76,8 @@
     <LibraryPath>Z:\ok yes\projects\tutorial\Libs;C:\Users\zain\Desktop\opengl\projects\tutorial\Libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>Z:\ok yes\projects\tutorial\Include;C:\Users\zain\Desktop\opengl\projects\tutorial\Include;$(IncludePath)$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>Z:\ok yes\projects\tutorial\Libs;C:\Users\zain\Desktop\opengl\projects\tutorial\Libs;$(LibraryPath)$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>C:\Users\zain1\Desktop\ogl\include;$(IncludePath)$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\zain1\Desktop\ogl\libs;$(LibraryPath)$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,7 +135,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\zain\Desktop\opengl\projects\tutorial\Libs\glfw3.lib;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.26100.0\um\x64\OpenGL32.Lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\zain1\Desktop\ogl\libs\glfw3.lib;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.26100.0\um\x64\OpenGL32.Lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -144,8 +144,8 @@
     <ClCompile Include="program.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Users\zain\Desktop\opengl\projects\tutorial\Include\cameraClass\cameraClass.h" />
-    <ClInclude Include="..\..\..\..\Users\zain\Desktop\opengl\projects\tutorial\Include\shaderClass\shader.h" />
+    <ClInclude Include="..\..\ogl\include\cameraClass\cameraClass.h" />
+    <ClInclude Include="..\..\ogl\include\shaderClass\shader.h" />
     <ClInclude Include="program.h" />
   </ItemGroup>
   <ItemGroup>

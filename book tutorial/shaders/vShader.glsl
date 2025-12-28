@@ -19,14 +19,14 @@ uniform mat4 projection;
 
 void main()
 {
-	gl_Position = projection * view * model * transform * vec4(aPos.x + xOffset, aPos.y, aPos.z, 1.0) ;
 	//   ourColor = changingColour;
 	
 	ourColor = aColor;
 
 	fragPos = vec3(model * vec4(aPos, 1.0));
 	texCord = atexCord;
-	normalCoord = aNormalCoord;
-//	normalCoord = mat3(transpose(inverse(model))) * aNormalCoord;
+//	normalCoord = aNormalCoord;
+	normalCoord = mat3(transpose(inverse(model))) * aNormalCoord;
+	gl_Position = projection * view * model * transform * vec4(aPos, 1.0);
 
 }

@@ -9,13 +9,18 @@
 #include <filesystem>
 #define  STB_IMAGE_IMPLEMENTATION
 #include <shaderClass/stb_image.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/glm/glm.hpp>
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtc/type_ptr.hpp>
 #include "program.h"
+#include <typeinfo>
+using namespace std;
 using namespace glm;
 
 float transparency = 0.5f;
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
 
 vec3 cameraPos(0.0f, 0.0f, 3.0f);
 vec3 cameraFront(0.0f, 0.0f, -1.0f);
@@ -27,7 +32,9 @@ float lastFrame = 0.0f; // time of last frame
 
 //for mouse movement
 Camera camera(vec3(0.0f, 0.0f, 3.0f));
-float lastX = 400, lastY = 300;
+//float lastX = 400, lastY = 300;
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
 float pitch1 = 0.0f, yaw1 = -90.0f;
 float mouseEntered = true;
 
@@ -35,7 +42,7 @@ float mouseEntered = true;
 //float fov = 90.0f;
 
 // the virtual sun
-vec3 lightPos(1.2f, 1.0f, 2.0f);
+vec3 lightPos(1.0f, 1.0f, 2.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) { // need to put external functions before the main one for some reason
     glViewport(0, 0, width, height);
@@ -57,24 +64,6 @@ void processInput(GLFWwindow* window) {
         transparency = transparency - 0.001f;
     }
 
-
-
-    /*if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        cameraPos += cameraSpeed * cameraFront;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        cameraPos -= cameraSpeed * cameraFront;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        cameraPos -= normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        cameraPos += normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
-    }*/
-
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera.ProcessKeyboard(FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -92,39 +81,6 @@ void processInput(GLFWwindow* window) {
 
 
 void mouse_callback(GLFWwindow* window, double x, double y) {
-
-    //if (mouseEntered) {
-    //    lastX = xpos;
-    //    lastY = ypos;
-    //    mouseEntered = false;
-    //}
-
-    //float xOffset = xpos - lastX;
-    //float yOffset = lastY - ypos; // vice versa since y coordinate axis is reversed
-    //const float sensitivity = 0.4f;
-
-    //lastX = xpos;
-    //lastY = ypos;
-    //xOffset *= sensitivity;
-    //yOffset *= sensitivity;
-    //yaw1 += xOffset;
-    //pitch1 += yOffset;
-    //
-    //if (pitch1 > 89.0f) {
-    //    pitch1 = 89.0f;
-    //}
-
-    //if (pitch1 < -89.0f) {
-    //    pitch1 = -89.0f;
-    //}
-
-    //vec3 direction;
-    //direction.x = cos(radians(yaw1)) * cos(radians(pitch1));
-    //direction.y = sin(radians(pitch1));
-    //direction.z = sin(radians(yaw1)) * cos(radians(pitch1));
-
-    //cameraFront = normalize(direction);
-
     float xpos = static_cast<float>(x);
     float ypos = static_cast<float>(y);
 
@@ -189,7 +145,9 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // for macintosh
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
+    #ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
     GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
@@ -207,7 +165,7 @@ int main()
         return -352084;
     }
 
-    glViewport(0, 0, 800, 600); // glad viewport same as glfw window size
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT); // glad viewport same as glfw window size
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); // resize viewport when resizing window
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -268,80 +226,21 @@ int main()
         -0.5f,  0.5f, -0.5f,     0.0f, 1.0f, 0.0f,       0.0f, 1.0f, /*0.0f,*/        0.0f,  1.0f,  0.0f
     };
 
-
-    float lightCubeVertices[]{
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
-
-        -0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-    };
-
-
-
-
-    float t2vertices[] = { // vertices
-        // t2
-        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // top left 2
-         0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // bottom left 2
-         0.25f,-0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f // bottom right 2
-    };
-
     unsigned int indices[] = {
         0, 1, 3, // 1st triangle
         1, 2, 3  // 2nd triangle
     };
 
-    //float vertices[] = { // unique vertices
-    //     0.5f,  0.5f, 0.0f,  // top right
-    //     0.5f, -0.5f, 0.0f,  // bottom right
-    //    -0.5f, -0.5f, 0.0f,  // bottom left
-    //    -0.5f,  0.5f, 0.0f   // top left 
-    //};
-
     //compile vertex shader
 
     shader ourShader("./shaders/vShader.glsl", "./shaders/fShader.glsl");
+
+    glEnable(GL_DEPTH_TEST);
+    
     float offset = 0.25f;
 
     // vertex buffer object
-    unsigned int VBO[2], VAO[2];
+    unsigned int VBO[1], VAO[1];
     glGenVertexArrays(2, VAO);
     glGenBuffers(2, VBO);
 
@@ -362,27 +261,6 @@ int main()
     // lighting attribute ignore this? but no......
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
     glEnableVertexAttribArray(3);
-    ////t2
-    //glBindVertexArray(VAO[1]);
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(t2vertices), t2vertices, GL_STATIC_DRAW);
-    //// link vertex attributes
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
-    ////colour
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
-
-    // element buffer object for drawing more vertices at once
-    //unsigned int EBO;
-    //glGenBuffers(1, &EBO);
-
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) // wireframe
-
-    //glUseProgram(shaderProgram);
 
     //texture code
 
@@ -450,38 +328,23 @@ int main()
 
     // Lighting
 
-
-    unsigned int lightVBO;
+    // instead of using lightvbo, just use the OG???
     unsigned int lightVAO;
 
-    glGenBuffers(1, &lightVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, lightVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(lightCubeVertices), lightCubeVertices, GL_STATIC_DRAW);
-
-
-
+    shader lightCubeShader("./shaders/vShaderLightingContainer.glsl", "./shaders/fShaderLightingContainer.glsl");
     glGenVertexArrays(1, &lightVAO);
     glBindVertexArray(lightVAO);
+
+    //glGenBuffers(1, &VBO[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(lightCubeVertices), lightCubeVertices, GL_STATIC_DRAW);
+
     // only bind light vao cos the container's vao data already contains required info.
-    glBindBuffer(GL_ARRAY_BUFFER, lightVBO);
     // set vert attr
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, /*6*/ 11 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-
-    shader lightCubeShader("./shaders/vShaderLightingContainer.glsl", "./shaders/fShaderLightingContainer.glsl");
-
-    
-
-    //have to make the second set of lighting shaders now.
-
-    //---------------------------------------------------------------------------------------
-
-    unsigned int projectionLocation = glGetUniformLocation(ourShader.id, "projection");
-    
-    //ourShader.setMat4("projection", mat4(1.0f));
-    //ourShader.setMat4("projection", proj);
-
+    lightCubeShader.use();
     vec3 cubePositions[] = {
         vec3(0.0f,  0.0f,  0.0f),
         vec3(2.0f,  5.0f, -15.0f),
@@ -505,31 +368,20 @@ int main()
         processInput(window);
 
         //glClearColor(0.1f, 0.3f, 0.3f, 1.0f); //state-setting function
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //state-setting function
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); //state-setting function
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using 
 
 
         ourShader.use();
 
-
-        // i have all the colours tho
-        /*lightingShader.use();
-        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);*/
-        ourShader.setVec3("lightColour", 1.0f, 1.0f, 1.0f);
-        lightCubeShader.setVec3("lightPos", lightPos);
-
         mat4 proj = perspective(radians(camera.Zoom), ((float)width) / ((float)height), 0.1f, 100.0f); // makes view frustrum
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
-        mat4 view(1.0f);
+        //glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &proj[0][0]);
+        ourShader.setMat4("projection", proj);
+
         // Don't forget to replace glm::lookAt with your own version
-        // view = calculate_lookAt_matrix(vec3(camx, 0.0f, camz), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)); broken for some reason
+        mat4 view(1.0f);
         view = camera.GetViewMatrix();
-
-
-
-        string name = "view";
-        glUniformMatrix4fv(glGetUniformLocation(ourShader.id, name.c_str()), 1, GL_FALSE, &view[0][0]);
-        //lightCubeShader.setMat4("view", view);
+        ourShader.setMat4("view", view);
 
         /*int vertexColourLocation2 = glGetUniformLocation(t2shaderProgram, "ourColour2");*/
 
@@ -561,10 +413,9 @@ int main()
         /*trans = rotate(trans, radians(90.0f), vec3(0.0, 0.0, 1.0));
         trans = scale(trans, vec3(0.5, 0.5, 0.5));*/
 
-        trans = rotate(trans, /*(float)glfwGetTime() * 6.0f*/ (float)pow(glfwGetTime(), 1), vec3(0.0f, 0.0f, 1.0f));
+        //trans = rotate(trans, /*(float)glfwGetTime() * 6.0f*/ (float)pow(glfwGetTime(), 1), vec3(0.0f, 0.0f, 1.0f)); // singular rotation (not needed?)
         trans = translate(trans, vec3(0.5f, -0.5f, 0.0f));
-        unsigned int transformLocation = glGetUniformLocation(ourShader.id, "transform");
-        glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(trans));
+        ourShader.setMat4("transform", trans);
 
         glBindVertexArray(VAO[0]);
 
@@ -573,9 +424,9 @@ int main()
 
         trans = mat4(1.0f);
         trans = translate(trans, vec3(-0.5f, 0.5f, 0.0f));
-        float scaleNum = static_cast<float>(sin((float)glfwGetTime()));
-        trans = scale(trans, vec3(abs(scaleNum), abs(scaleNum), abs(scaleNum)));
-        glUniformMatrix4fv(transformLocation, 1, GL_FALSE, &trans[0][0]);
+        //float scaleNum = static_cast<float>(sin((float)glfwGetTime())); // grows and shrinks with time
+        //trans = scale(trans, vec3(abs(scaleNum), abs(scaleNum), abs(scaleNum)));
+        //glUniformMatrix4fv(transformLocation, 1, GL_FALSE, &trans[0][0]); // i think this another separate instance of a cube...
 
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -583,12 +434,12 @@ int main()
         model = rotate(model, (float)glfwGetTime() * radians(0.0f), vec3(0.5f, 1.0f, 0.0f));
 
         glBindVertexArray(VAO[0]);
-        for (unsigned int i = 0; i < 10; i++)
+        for (unsigned int i = 0; i < 1; i++)
         {
             mat4 model = mat4(1.0f);
             model = translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            model = rotate(model, radians(angle), vec3(1.0f, 0.3f, 0.5f));
+            //float angle = 20.0f * i; // another angle rotation 
+            //model = rotate(model, radians(angle), vec3(1.0f, 0.3f, 0.5f));
             unsigned int modelLocation = glGetUniformLocation(ourShader.id, "model");
             glUniformMatrix4fv(modelLocation, 1, GL_FALSE, value_ptr(model));
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -596,43 +447,36 @@ int main()
 
 
         // "this, now this is the light of the world" - James May c. early 21st century
-        // the light of the world has broken everything. i fixed the problems lmao
+        // the light of the world has broken everything. nvm i fixed the problems lmao
         ourShader.setVec3("lightColour", 1.0f, 1.0f, 1.0f);
+        //cout << camera.Position.x << " " << camera.Position.y << " " << camera.Position.z << endl;
         ourShader.setVec3("viewPos", camera.Position);
 
         lightCubeShader.use();
 
+        lightCubeShader.setMat4("lightProjection", proj);
 
-        name = "lightProjection";
-        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &proj[0][0]);
-        //lightCubeShader.setMat4("projection", projection);
-
-        name = "lightView";
-        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &view[0][0]);
-        //lightCubeShader.setMat4("view", view);
-
-        ourShader.setVec3("lightPos", lightPos);
+        lightCubeShader.setMat4("lightView", view);
+        cout << glGetError() << endl;  // gives 0
+        //lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+        //lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+        cout << typeid(lightPos).name() << endl;
+        ourShader.setVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
+        cout << glGetError() << endl;  // gives 1282
 
         mat4 lightModel(1.0f);
-        name = "lightModel";
         lightModel = translate(lightModel, lightPos);
         lightModel = scale(lightModel, vec3(0.2f)); // 20% of the size of other cubes
-        glUniformMatrix4fv(glGetUniformLocation(lightCubeShader.id, name.c_str()), 1, GL_FALSE, &lightModel[0][0]);
-
-        //lightCubeShader.setMat4("model", lightModel);
+        cout << glGetError() << endl;  // gives 0
+        lightCubeShader.setMat4("lightModel", lightModel);
 
         glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-
-
-        glEnable(GL_DEPTH_TEST);
+        glDrawArrays(GL_TRIANGLES, 0, 36); 
         glBindVertexArray(0);
-
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-
+        cout << "_______________________________________" << endl;
     }
 
     glfwTerminate();
